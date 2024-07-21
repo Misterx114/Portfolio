@@ -1,25 +1,33 @@
-document.addEventListener("DOMContentLoaded", function() {
-    let currentIndex = 0;
-    const images = document.querySelectorAll('.carousel-image');
+const carouselInner = document.querySelector('.carousel-inner');
+const carouselItems = document.querySelectorAll('.carousel-item');
+const carouselPrev = document.querySelector('.carousel-prev');
+const carouselNext = document.querySelector('.carousel-next');
 
-    function updateCarousel() {
-        images.forEach((img, index) => {
-            img.classList.remove('active', 'left', 'right');
-            if (index === currentIndex) {
-                img.classList.add('active');
-            } else if (index === (currentIndex - 1 + images.length) % images.length) {
-                img.classList.add('left');
-            } else if (index === (currentIndex + 1) % images.length) {
-                img.classList.add('right');
-            }
-        });
-    }
+let currentSlide = 0;
 
-    function nextImage() {
-        currentIndex = (currentIndex + 1) % images.length;
-        updateCarousel();
-    }
-
-    updateCarousel();
-    setInterval(nextImage, 3000);
+carouselPrev.addEventListener('click', () => {
+  currentSlide--;
+  if (currentSlide < 0) {
+    currentSlide = carouselItems.length - 1;
+  }
+  updateCarousel();
 });
+
+carouselNext.addEventListener('click', () => {
+  currentSlide++;
+  if (currentSlide >= carouselItems.length) {
+    currentSlide = 0;
+  }
+  updateCarousel();
+});
+
+function updateCarousel() {
+  carouselItems.forEach((item, index) => {
+    item.classList.remove('active');
+    if (index === currentSlide) {
+      item.classList.add('active');
+    }
+  });
+}
+
+updateCarousel(); // Initialize the carousel
