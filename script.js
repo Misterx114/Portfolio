@@ -1,33 +1,29 @@
-const carouselInner = document.querySelector('.carousel-inner');
-const carouselItems = document.querySelectorAll('.carousel-item');
-const carouselPrev = document.querySelector('.carousel-prev');
-const carouselNext = document.querySelector('.carousel-next');
-
-let currentSlide = 0;
-
-carouselPrev.addEventListener('click', () => {
-  currentSlide--;
-  if (currentSlide < 0) {
-    currentSlide = carouselItems.length - 1;
-  }
-  updateCarousel();
+$(document).ready(function() {
+    $('.slick-carousel').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        arrows: false,
+        dots: false,
+        centerMode: true,
+        variableWidth: true,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
 });
-
-carouselNext.addEventListener('click', () => {
-  currentSlide++;
-  if (currentSlide >= carouselItems.length) {
-    currentSlide = 0;
-  }
-  updateCarousel();
-});
-
-function updateCarousel() {
-  carouselItems.forEach((item, index) => {
-    item.classList.remove('active');
-    if (index === currentSlide) {
-      item.classList.add('active');
-    }
-  });
-}
-
-updateCarousel(); // Initialize the carousel
